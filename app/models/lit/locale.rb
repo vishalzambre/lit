@@ -26,16 +26,16 @@ module Lit
     end
 
     def get_translated_percentage
-      total = get_all_localizations_count
-      total > 0 ? (get_changed_localizations_count * 100 / total) : 0
+      return 0 unless get_all_localizations_count > 0
+      (get_changed_localizations_count * 100) / get_all_localizations_count.to_f
     end
 
     def get_changed_localizations_count
-      localizations.changed.count(:id)
+      @_c_count ||= localizations.select(&:is_changed).size
     end
 
     def get_all_localizations_count
-      localizations.count(:id)
+      @_count ||= localizations.size
     end
 
     private
